@@ -1,0 +1,76 @@
+package com.example.jelelight.servicequeuing;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.jelelight.servicequeuing.Queue;
+import com.example.jelelight.servicequeuing.R;
+
+import java.util.List;
+
+public class RecyclerViewConfig {
+    private Context mContext;
+    private QueueAdapter mQueueAdapter;
+
+    public void setConfig(RecyclerView recyclerView,Context context,List<Queue> queues,List<String> keys){
+        mContext = context;
+        mQueueAdapter = new QueueAdapter(queues,keys);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(mQueueAdapter);
+    }
+
+    class QueueItemView extends RecyclerView.ViewHolder{
+        private TextView mCurrent;
+        private TextView mQueueID;
+        private TextView mPatientName;
+
+        private String key;
+
+        public QueueItemView(ViewGroup parent){
+            super(LayoutInflater.from(mContext).inflate(R.layout.queue_list_item,parent,false));
+            mCurrent = (TextView) itemView.findViewById(R.id.current_txtview);
+            mQueueID = (TextView) itemView.findViewById(R.id.queueId_txtview);
+            mPatientName = (TextView) itemView.findViewById(R.id.name_txtview);
+        }
+
+        public void bind(Queue queue,String key){
+            mCurrent.setText(queue.getCurrentQueue());
+            mQueueID.setText(queue.getId());
+            mPatientName.setText(queue.getPatientID());
+            this.key = key;
+        }
+
+    }
+
+    class QueueAdapter extends RecyclerView.Adapter<QueueItemView>{
+        private List<Queue> mQueueList;
+        private List<String> mKeys;
+
+        public QueueAdapter(List<Queue> mQueueList, List<String> mKeys) {
+            this.mQueueList = mQueueList;
+            this.mKeys = mKeys;
+        }
+
+        @NonNull
+        @Override
+        public QueueItemView onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+            return new QueueItemView(parent);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull QueueItemView queueItemView, int i) {
+            queueItemView.bind(mQueueList.get(i), mKeys.get(i));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mQueueList.size();
+        }
+    }
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMain"
+    android:orientation="vertical"
+    tools:context=".PinActivity">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter PIN Code"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_weight="9"
+        >
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PIN"
+                android:textSize="30dp"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/head_input_style"
+                />
+
+            <EditText
+                android:id="@+id/pinEnter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_text_style"
+                android:hint="XXXX"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ref. Code :"
+                android:textSize="20dp"
+                />
+
+            <TextView
+                android:layout_marginStart="10dp"
+                android:id="@+id/ref"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="QAM127KVP583"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="The PIN Code will be sent to your phone number in 1 - 5 minutes"
+            android:textSize="30dp"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Submit"
+        android:layout_marginBottom="30dp"
+        android:textSize="25dp"
+        style="@style/ButtonStyle"
+        android:background="@drawable/violet_round_button"
+        />
+
+
+
+</LinearLayout>

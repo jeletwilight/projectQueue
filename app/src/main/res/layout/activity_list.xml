@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSubDark"
+    android:orientation="vertical"
+    tools:context=".ListActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Queue List"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="(For Normal Illness)"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        />
+
+    <TableLayout
+        android:background="@color/colorMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TableRow
+            android:background="@color/colorSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_marginStart="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Room" />
+
+            <TextView
+                android:layout_column="1"
+                android:layout_marginStart="90dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Queue number" />
+
+        </TableRow>
+
+        <LinearLayout
+            style="@style/listAlign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                style="@style/QueueField">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="1" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="30dp"
+                android:text="0123456789"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/listAlign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                style="@style/QueueField">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="2" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="30dp"
+                android:text="0123456789"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/listAlign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                style="@style/QueueField">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:text="3" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_gravity="center_vertical"
+                android:textSize="30dp"
+                android:text="0123456789"/>
+
+        </LinearLayout>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:background="@color/colorSubDark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Queue List"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(For Accident)"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            />
+
+
+        <TableRow
+            android:background="@color/colorSub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_column="0"
+                android:layout_marginStart="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Room" />
+
+            <TextView
+                android:layout_column="1"
+                android:layout_marginStart="90dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Queue number" />
+
+        </TableRow>
+
+        <TableRow
+            android:background="@color/colorMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/listAlign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    style="@style/QueueField">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30dp"
+                        android:text="S" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="30dp"
+                    android:text="0123456789"/>
+
+            </LinearLayout>
+
+        </TableRow>
+
+    </LinearLayout>
+
+</LinearLayout>

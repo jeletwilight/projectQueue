@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorMain"
+    tools:context=".ProfileActivity">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="@string/profile_head"
+        android:textSize="30dp"
+        />
+
+    <LinearLayout
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_field"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : " />
+
+                <TextView
+                    android:id="@+id/name_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My name is _________________" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender : " />
+
+                <TextView
+                    android:id="@+id/gender_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M/F" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Type : " />
+
+                <TextView
+                    android:id="@+id/blood_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A/B/O/AB" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Birth Date : " />
+
+                <TextView
+                    android:id="@+id/day_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dd" />
+
+                <TextView
+                    android:id="@+id/month_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - mm" />
+
+                <TextView
+                    android:id="@+id/year_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - yyyy" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone : " />
+
+                <TextView
+                    android:id="@+id/phone_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="08x - xxxxxxxxxx" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age : " />
+
+                <TextView
+                    android:id="@+id/age_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="xx" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" years"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Height : " />
+
+                <TextView
+                    android:id="@+id/height_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="xx" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" cm. " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weight :" />
+
+                <TextView
+                    android:id="@+id/weight_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="xx" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" kg. " />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Caution : "
+                    />
+
+                <TextView
+                    android:id="@+id/caution_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paracetamol Allergic"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User ID : "
+            />
+
+        <TextView
+            android:id="@+id/uid_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FFFFFFFFFFFFFFFFFFFFF"
+            />
+
+        <ImageButton
+            android:id="@+id/copy_profile"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_content_copy_black_24dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/editProfile_Btn"
+        style="@style/ButtonStyle"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/dark_v_round_button"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/backProfile_Btn"
+        style="@style/ButtonStyle"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/gray_round_button"
+        android:text="Back" />
+
+</LinearLayout>
