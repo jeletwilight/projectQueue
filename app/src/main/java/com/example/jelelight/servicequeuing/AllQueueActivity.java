@@ -12,6 +12,7 @@ public class AllQueueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_all_queue);
         mRecyclerView = findViewById(R.id.recycler_queues);
         new FirebaseDB().readQueues(new FirebaseDB.DataStatus() {

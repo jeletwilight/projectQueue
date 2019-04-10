@@ -1,34 +1,17 @@
 package com.example.jelelight.servicequeuing;
 
 public class Queue {
-    private Integer id;
-    private Integer currentQueue;
     private String patientID;
     private String patientCase;
+    private String status;
 
     public Queue(){
     }
 
-    public Queue(String patientID,String patientCase){
+    public Queue(String patientID,String patientCase,String status){
         this.patientID = patientID;
         this.patientCase = patientCase;
-    }
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCurrentQueue() {
-        return currentQueue;
-    }
-
-    public void setCurrentQueue(Integer currentQueue) {
-        this.currentQueue = currentQueue;
+        this.status = status;
     }
 
     public String getPatientCase() {
@@ -47,7 +30,11 @@ public class Queue {
         this.patientID = patientID;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
-
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

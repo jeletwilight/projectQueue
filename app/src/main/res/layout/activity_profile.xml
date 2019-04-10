@@ -8,18 +8,17 @@
     android:background="@color/colorMain"
     tools:context=".ProfileActivity">
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textStyle="bold"
-        android:text="@string/profile_head"
-        android:textSize="30dp"
-        />
+        app:titleTextColor="@color/colorWhite"
+        app:title="Profile"
+        android:background="@color/colorMainDark">
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,16 +110,27 @@
                     android:text="dd" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
+
+                <TextView
                     android:id="@+id/month_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" - mm" />
+                    android:text="mm" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
 
                 <TextView
                     android:id="@+id/year_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" - yyyy" />
+                    android:text="yyyy" />
 
             </LinearLayout>
 
@@ -195,7 +205,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Weight :" />
+                    android:text="Weight : " />
 
                 <TextView
                     android:id="@+id/weight_profile"

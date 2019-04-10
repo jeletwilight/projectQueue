@@ -27,7 +27,7 @@ public class RecyclerViewConfig {
 
     class QueueItemView extends RecyclerView.ViewHolder{
         private TextView mCurrent;
-        private TextView mQueueID;
+        private TextView mStatus;
         private TextView mPatientName;
 
         private String key;
@@ -35,13 +35,13 @@ public class RecyclerViewConfig {
         public QueueItemView(ViewGroup parent){
             super(LayoutInflater.from(mContext).inflate(R.layout.queue_list_item,parent,false));
             mCurrent = (TextView) itemView.findViewById(R.id.current_txtview);
-            mQueueID = (TextView) itemView.findViewById(R.id.queueId_txtview);
+            mStatus = (TextView) itemView.findViewById(R.id.status_txtview);
             mPatientName = (TextView) itemView.findViewById(R.id.name_txtview);
         }
 
         public void bind(Queue queue,String key){
-            mCurrent.setText(queue.getCurrentQueue());
-            mQueueID.setText(queue.getId());
+            mCurrent.setText(key);
+            mStatus.setText(queue.getStatus());
             mPatientName.setText(queue.getPatientID());
             this.key = key;
         }

@@ -17,11 +17,10 @@ public class FirebaseDB {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceQueue;
     private List<Queue> queues = new ArrayList<>();
-    private List<User> users = new ArrayList<>();
 
     public FirebaseDB(){
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceQueue = mDatabase.getReference("Clinic");
+        mReferenceQueue = mDatabase.getReference("Clinic").child("queues");
     }
 
     public interface DataStatus{
@@ -41,6 +40,12 @@ public class FirebaseDB {
                 for(DataSnapshot keyNode : dataSnapshot.getChildren()){
                     keys.add(keyNode.getKey());
                     Queue queue = keyNode.getValue(Queue.class);
+                    queue.setPatientCase(keyNode.child("case").getValue(String.class));
+                    queue.setPatientID(keyNode.child("user").getValue(String.class));
+                    if(!keyNode.child("status").exists()) {
+                        mReferenceQueue.child(String.valueOf(keyNode.getKey())).child("status").setValue("waiting");
+                    }
+                    queue.setStatus(keyNode.child("status").getValue(String.class));
                     queues.add(queue);
                 }
                 dataStatus.DataIsLoaded(queues,keys);
