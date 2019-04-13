@@ -117,8 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:hint="Enter Birth Date"
-                android:ems="10"
-                android:inputType="date" />
+                />
 
             <Button
                 android:id="@+id/select_date_btn"

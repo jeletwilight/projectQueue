@@ -1,5 +1,6 @@
 package com.example.jelelight.servicequeuing;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -51,6 +53,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
+    private String bDay,bMonth,bYear;
     private String userID;
     //private boolean hasKey;
 
@@ -66,6 +69,9 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 birthEdit.setText(dayOfMonth+"/"+month+"/"+year);
+                bDay = String.valueOf(dayOfMonth);
+                bMonth = String.valueOf(month);
+                bYear = String.valueOf(year);
             }
         };
 
@@ -109,8 +115,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
         submitBtn.setOnClickListener(onClickListener);
         backBtn.setOnClickListener(onClickListener);
+        calenView.setOnClickListener(onClickListener);
 
-        //birthEdit.setEnabled(false);
+        birthEdit.setEnabled(false);
     }
 
     private void pageManage(){
@@ -132,9 +139,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     saveProfile();
                     startActivity(new Intent(EditProfileActivity.this,ProfileActivity.class));
                     finish();
-                    break;
-                case R.id.birth_edit:
-                    onClickCalendar();
                     break;
                 case R.id.select_date_btn:
                     onClickCalendar();
@@ -164,32 +168,36 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void genderCheck(){
-        int radioId = rGend.getCheckedRadioButtonId();
-        bGen = findViewById(radioId);
-        //Toast.makeText(this,bGen.getText(),Toast.LENGTH_SHORT).show();
-        if(bGen.getText().equals("Male")){
-            mReferenceUser.child(mUser.getUid()).child("gender").setValue("Male");
-        }else if(bGen.getText().equals("Female")){
-            mReferenceUser.child(mUser.getUid()).child("gender").setValue("Female");
-        }else{
-            mReferenceUser.child(mUser.getUid()).child("gender").setValue("NULL");
+        if(genM.isChecked() || genF.isChecked()) {
+            int radioId = rGend.getCheckedRadioButtonId();
+            bGen = findViewById(radioId);
+            //Toast.makeText(this,bGen.getText(),Toast.LENGTH_SHORT).show();
+            if (bGen.getText().equals("Male")) {
+                mReferenceUser.child(mUser.getUid()).child("gender").setValue("Male");
+            } else if (bGen.getText().equals("Female")) {
+                mReferenceUser.child(mUser.getUid()).child("gender").setValue("Female");
+            } else {
+                mReferenceUser.child(mUser.getUid()).child("gender").setValue("NULL");
+            }
         }
     }
 
     private void bloodCheck(){
-        int radioId = rBlood.getCheckedRadioButtonId();
-        bBlood = findViewById(radioId);
-        //Toast.makeText(this,bBlood.getText(),Toast.LENGTH_SHORT).show();
-        if(bBlood.getText().equals("A")){
-            mReferenceUser.child(mUser.getUid()).child("blood").setValue("A");
-        }else if(bBlood.getText().equals("B")){
-            mReferenceUser.child(mUser.getUid()).child("blood").setValue("B");
-        }else if(bBlood.getText().equals("AB")){
-            mReferenceUser.child(mUser.getUid()).child("blood").setValue("AB");
-        }else if(bBlood.getText().equals("O")){
-            mReferenceUser.child(mUser.getUid()).child("blood").setValue("O");
-        }else{
-            mReferenceUser.child(mUser.getUid()).child("blood").setValue("NULL");
+        if(bloodA.isChecked() || bloodB.isChecked() || bloodAB.isChecked() || bloodO.isChecked()) {
+            int radioId = rBlood.getCheckedRadioButtonId();
+            bBlood = findViewById(radioId);
+            //Toast.makeText(this,bBlood.getText(),Toast.LENGTH_SHORT).show();
+            if(bBlood.getText().equals("A")){
+                mReferenceUser.child(mUser.getUid()).child("blood").setValue("A");
+            }else if(bBlood.getText().equals("B")){
+                mReferenceUser.child(mUser.getUid()).child("blood").setValue("B");
+            }else if(bBlood.getText().equals("AB")){
+                mReferenceUser.child(mUser.getUid()).child("blood").setValue("AB");
+            }else if(bBlood.getText().equals("O")){
+                mReferenceUser.child(mUser.getUid()).child("blood").setValue("O");
+            }else{
+                mReferenceUser.child(mUser.getUid()).child("blood").setValue("NULL");
+            }
         }
     }
 
@@ -208,23 +216,36 @@ public class EditProfileActivity extends AppCompatActivity {
                         checkProfileValue(keyNode,"caution",cautionEdit);
                         if(keyNode.child("blood").exists()){
                             String b = keyNode.child("blood").getValue().toString();
-                            if(b == "A"){
+                            if(b.equals("A")){
                                 bloodA.setChecked(true);
-                            }else if(b == "B"){
+                            }else if(b.equals("B")){
                                 bloodB.setChecked(true);
-                            }else if(b == "AB"){
+                            }else if(b.equals("AB")){
                                 bloodAB.setChecked(true);
-                            }else if(b == "O"){
+                            }else if(b.equals("O")){
                                 bloodO.setChecked(true);
                             }
                         }
                         if(keyNode.child("gender").exists()){
                             String g = keyNode.child("gender").getValue().toString();
-                            if(g == "Male"){
+                            if(g.equals("Male")){
                                 genM.setChecked(true);
-                            }else if(g == "Female"){
+                            }else if(g.equals("Female")){
                                 genF.setChecked(true);
                             }
+                        }
+                        if(keyNode.child("bdate").exists()){
+                            String bd = keyNode.child("bdate").getValue().toString()+"/"+
+                                    keyNode.child("bmonth").getValue().toString()+"/"+
+                                    keyNode.child("byear").getValue().toString();
+                            birthEdit.setText(bd);
+                            bDay = keyNode.child("bdate").getValue().toString();
+                            bMonth = keyNode.child("bmonth").getValue().toString();
+                            bYear = keyNode.child("byear").getValue().toString();
+                        }else{
+                            bDay = "1";
+                            bMonth = "1";
+                            bYear = "1991";
                         }
                     }
                 }
@@ -241,7 +262,23 @@ public class EditProfileActivity extends AppCompatActivity {
 
         genderCheck();
         bloodCheck();
-
+        if(!birthEdit.getText().equals("") || !birthEdit.getText().equals(null)){
+            mReferenceCurrentUser.child("bdate").setValue(bDay.toString());
+            mReferenceCurrentUser.child("bmonth").setValue(bMonth.toString());
+            mReferenceCurrentUser.child("byear").setValue(bYear.toString());
+        }
+        if(!phoneEdit.getText().equals("") || !phoneEdit.getText().equals(null)){
+            mReferenceCurrentUser.child("phone").setValue(phoneEdit.getText().toString());
+        }
+        if(!weightEdit.getText().equals("") || !weightEdit.getText().equals(null)){
+            mReferenceCurrentUser.child("weight").setValue(weightEdit.getText().toString());
+        }
+        if(!heightEdit.getText().equals("") || !heightEdit.getText().equals(null)){
+            mReferenceCurrentUser.child("height").setValue(heightEdit.getText().toString());
+        }
+        if(!cautionEdit.getText().equals("") || !cautionEdit.getText().equals(null)){
+            mReferenceCurrentUser.child("caution").setValue(cautionEdit.getText().toString());
+        }
         if(!nameEdit.getText().equals("") || !nameEdit.getText().equals(null)){
             mReferenceCurrentUser.child("name").setValue(String.valueOf(nameEdit.getText()));
             UserProfileChangeRequest req = new UserProfileChangeRequest.Builder().setDisplayName(String.valueOf(nameEdit.getText())).build();

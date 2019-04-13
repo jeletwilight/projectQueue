@@ -35,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameView,genderView,bDayView,
                         bMonthView,bYearView,heightView,
                         weightView,bloodView,cautionView,
-                        uidView,phoneView,ageView;
+                        uidView,phoneView;
 
     private Button editBtn,backBtn;
     private ImageButton copyBtn;
@@ -84,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
         cautionView = findViewById(R.id.caution_profile);
         uidView = findViewById(R.id.uid_profile);
         phoneView = findViewById(R.id.phone_profile);
-        ageView = findViewById(R.id.age_profile);
 
         copyBtn = findViewById(R.id.copy_profile);
         editBtn = findViewById(R.id.editProfile_Btn);
@@ -123,7 +122,6 @@ public class ProfileActivity extends AppCompatActivity {
                         checkProfileValue(keyNode,"bmonth",bMonthView);
                         checkProfileValue(keyNode,"byear",bYearView);
                         checkProfileValue(keyNode,"phone",phoneView);
-                        checkProfileValue(keyNode,"age",ageView);
                         checkProfileValue(keyNode,"height",heightView);
                         checkProfileValue(keyNode,"weight",weightView);
                         checkProfileValue(keyNode,"caution",cautionView);
