@@ -67,6 +67,7 @@
                 />
 
             <RadioGroup
+                android:id="@+id/radio_gend"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/edit_text_style"
@@ -114,10 +115,22 @@
                 android:id="@+id/birth_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:hint="Enter Birth Date"
                 android:ems="10"
                 android:inputType="date" />
+
+            <Button
+                android:id="@+id/select_date_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:text="Select"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/dark_v_round_button"
+                android:textColor="@color/colorWhite"
+                />
+
 
         </LinearLayout>
 
@@ -143,7 +156,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/edit_text_style"
                 android:inputType="number"
-                android:hint="08xxxxxxxxxxx"/>
+                android:hint="Enter Your Phone Number"/>
 
         </LinearLayout>
 
@@ -163,6 +176,7 @@
                 />
 
             <RadioGroup
+                android:id="@+id/radio_blood"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/edit_text_style"
