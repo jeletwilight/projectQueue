@@ -20,14 +20,16 @@ import com.google.firebase.database.ValueEventListener;
 public class ConfirmActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mReferenceToken,mReferenceUser,mReferenceMyCount,mReferenceClinic;
+    private DatabaseReference mReferenceToken,mReferenceUser,mReferenceMyCount,
+                                mReferenceQueue,mReferenceMyUser;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private Integer token,myCount,qid;
     private boolean inqueue;
-    Button okBtn,cancelBtn;
-    TextView remainTV,qTV;
+    private Boolean isMineLoaded,isTokenLoaded;
+    private Button okBtn,cancelBtn;
+    private TextView remainTV,qTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,19 +85,27 @@ public class ConfirmActivity extends AppCompatActivity {
     }
 
     void managePage(){
+        isMineLoaded = Boolean.FALSE;
+        isTokenLoaded = Boolean.FALSE;
+
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceToken = mDatabase.getReference().child("Clinic").child("queue_token");
         mReferenceUser = mDatabase.getReference().child("Users");
-        mReferenceMyCount = mReferenceUser.child(mUser.getUid()).child("queueNo");
-        mReferenceClinic = mDatabase.getReference().child("Clinic");
+        mReferenceMyUser = mDatabase.getReference().child("Users").child(mUser.getUid());
+        mReferenceMyCount = mReferenceMyUser.child("queueNo");
+        mReferenceQueue = mDatabase.getReference().child("Clinic").child("queues");
 
         readInQueue();
         readQID();
 
         readToken();
         readMyCount();
+
+        /*if(isTokenLoaded && isMineLoaded) {
+            remainTV.setText(String.valueOf(myCount - token));
+        }*/
     }
 
     void okClick(){
@@ -105,17 +115,21 @@ public class ConfirmActivity extends AppCompatActivity {
     }
 
     void cancelClick(){
-        Intent cancelIntent = new Intent(ConfirmActivity.this,LobbyActivity.class);
-        startActivity(cancelIntent);
-        finish();
+        //mReferenceQueue.child(qid.toString()).child("status").setValue("canceled");
+        Intent i = new Intent(getApplicationContext(),PopWarningActivity.class);
+        startActivity(i);
+        //Intent cancelIntent = new Intent(ConfirmActivity.this,LobbyActivity.class);
+        //startActivity(cancelIntent);
+        //finish();
     }
 
     private void readQID(){
-        mReferenceClinic.child("queues").orderByChild("user").equalTo(String.valueOf(mUser.getUid())).addValueEventListener(new ValueEventListener() {
+        mReferenceQueue.orderByChild("user").equalTo(String.valueOf(mUser.getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
                     String key = childsnapshot.getKey();
+                    qid = Integer.valueOf(key);
                     qTV.setText(key);
                 }
             }
@@ -128,11 +142,11 @@ public class ConfirmActivity extends AppCompatActivity {
     }
 
     private void readInQueue(){
-        mReferenceUser.child("inQueue").addValueEventListener(new ValueEventListener() {
+        mReferenceMyUser.child("inQueue").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Boolean iq = (Boolean) dataSnapshot.getValue();
-                if(false) {
+                Boolean iq = (Boolean) dataSnapshot.getValue(Boolean.class);
+                if(iq == Boolean.FALSE) {
                     startActivity(new Intent(ConfirmActivity.this, LobbyActivity.class));
                     finish();
                 }
@@ -151,6 +165,7 @@ public class ConfirmActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myCount = dataSnapshot.getValue(Integer.class);
+                isMineLoaded = Boolean.TRUE;
                 //remainTV.setText(String.valueOf(myCount-token));
             }
 
@@ -165,7 +180,12 @@ public class ConfirmActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 token = dataSnapshot.getValue(Integer.class);
-                remainTV.setText(String.valueOf(myCount-token));
+                isTokenLoaded = Boolean.TRUE;
+                //remainTV.setText(String.valueOf(myCount-token));
+                if(isTokenLoaded && isMineLoaded) {
+                    remainTV.setText(String.valueOf(myCount - token));
+                }
+
             }
 
             @Override
@@ -173,7 +193,5 @@ public class ConfirmActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void currentQueueRead(){}
 
 }

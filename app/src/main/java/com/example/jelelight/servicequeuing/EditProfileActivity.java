@@ -284,6 +284,7 @@ public class EditProfileActivity extends AppCompatActivity {
             UserProfileChangeRequest req = new UserProfileChangeRequest.Builder().setDisplayName(String.valueOf(nameEdit.getText())).build();
             mUser.updateProfile(req);
         }
+        Toast.makeText(this,"Save Success",Toast.LENGTH_SHORT);
 
     }
 

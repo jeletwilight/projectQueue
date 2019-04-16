@@ -31,6 +31,7 @@ public class LobbyActivity extends AppCompatActivity {
     private Menu menu;
     private Integer count,keyCount,qCount;
     private boolean open,reservable;
+    private Boolean inQ;
     private Button reserveBtn,infoBtn;
     private TextView queueCount,clinicStat;
 
@@ -56,6 +57,7 @@ public class LobbyActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        inQ = false;
         reservable = false;
         mAuth.getInstance();
         readUser();
@@ -82,7 +84,11 @@ public class LobbyActivity extends AppCompatActivity {
                 startActivity(new Intent(LobbyActivity.this,ProfileActivity.class));
                 return true;
             case R.id.action_profile2:
-                toCurrentQueue();
+                if(inQ) {
+                    toCurrentQueue();
+                }else{
+                    Toast.makeText(this, "You are not in Queue now!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.action_profile3:
                 mAuth.getInstance().signOut();
@@ -181,7 +187,7 @@ public class LobbyActivity extends AppCompatActivity {
         //startActivity(confirmIntent);
     }
 
-    private Integer readKeyCount(){
+    /*private Integer readKeyCount(){
         final Integer[] counter = new Integer[1];
         mReferenceKeyCount.addValueEventListener(new ValueEventListener() {
             @Override
@@ -197,7 +203,7 @@ public class LobbyActivity extends AppCompatActivity {
             }
         });
         return counter[0];
-    }
+    }*/
 
 
     private Integer readCount(){
@@ -278,10 +284,14 @@ public class LobbyActivity extends AppCompatActivity {
                     if(!keyNode.child("inQueue").exists()){
                         mReferenceUser.child(mUser.getUid()).child("inQueue").setValue(Boolean.FALSE);
                     }
-                    if(keyNode.child("inQueue").getValue(Boolean.class) == Boolean.TRUE){
-                        reservable = false;
-                    }else{
-                        reservable = true;
+                    if(keyNode.getKey().equals(mUser.getUid())) {
+                        if (keyNode.child("inQueue").getValue(Boolean.class) == Boolean.TRUE) {
+                            reservable = false;
+                            inQ = true;
+                        } else {
+                            reservable = true;
+                            inQ = false;
+                        }
                     }
                 }
 

@@ -11,12 +11,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirebaseUser {
+public class MyFirebaseUser {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceQueue;
     private List<User> users = new ArrayList<>();
 
-    public FirebaseUser(){
+    public MyFirebaseUser(){
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceQueue = mDatabase.getReference("Users");
     }
@@ -29,7 +29,7 @@ public class FirebaseUser {
     }
 
 
-    public void readUsers(final FirebaseUser.UserStatus userStatus){
+    public void readUsers(final MyFirebaseUser.UserStatus userStatus){
         mReferenceQueue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
