@@ -1,18 +1,10 @@
 package com.example.jelelight.servicequeuing;
 
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.util.TimeZone;
-import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,17 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class LobbyActivity extends AppCompatActivity {
+public class BandageLobbyActivity extends AppCompatActivity {
 
     private Calendar cld;
 
-    private View symSet;
     private Menu menu;
     private Integer count,keyCount,qCount;
     private boolean open,reservable;
@@ -50,21 +39,21 @@ public class LobbyActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceStatus,mReferenceCount,
-                                mReferenceUser,mReferenceQueue,
-                                mReferenceQCount;
+            mReferenceUser,mReferenceQueue,
+            mReferenceQCount;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private List<ExUser> eusers = new ArrayList<>();
     private List<String> queueID = new ArrayList<>();
     private List<String> waitingQID = new ArrayList<>();
-
+    private List<String> allQID = new ArrayList<>();
     private List<String> nextPageQueue = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lobby);
+        setContentView(R.layout.activity_bandage_lobby);
         cld = Calendar.getInstance();
         reservable = false;
         bindView();
@@ -79,7 +68,7 @@ public class LobbyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         if(mUser == null){
-            startActivity(new Intent(LobbyActivity.this,MainActivity.class));
+            startActivity(new Intent(BandageLobbyActivity.this,MainActivity.class));
             finish();
         }
         pageManage();
@@ -98,7 +87,7 @@ public class LobbyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_profile1:
-                startActivity(new Intent(LobbyActivity.this,ProfileActivity.class));
+                startActivity(new Intent(BandageLobbyActivity.this,ProfileActivity.class));
                 return true;
             case R.id.action_profile2:
                 if(inQ) {
@@ -109,55 +98,53 @@ public class LobbyActivity extends AppCompatActivity {
                 return true;
             case R.id.action_profile3:
                 mAuth.getInstance().signOut();
-                Toast.makeText(LobbyActivity.this, "Logged Out.",
+                Toast.makeText(BandageLobbyActivity.this, "Logged Out.",
                         Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LobbyActivity.this,MainActivity.class));
+                startActivity(new Intent(BandageLobbyActivity.this,MainActivity.class));
                 finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private final View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.queueCount_txt:
-                    toAllQueue();
-                    break;
-                case R.id.reserveBtn:
-                    toConfirm();
-                    break;
-                case R.id.infoBtn:
-                    toInfo();
-                    break;
-            }
-        }
-    };
 
     void bindView(){
-        reserveBtn = findViewById(R.id.reserveBtn);
-        infoBtn = findViewById(R.id.infoBtn);
-        queueCount = findViewById(R.id.queueCount_txt);
-        clinicStat = findViewById(R.id.clinicStat);
-        symField = findViewById(R.id.symptom_edit);
-        symSet = findViewById(R.id.symp_set);
+        reserveBtn = findViewById(R.id.BreserveBtn);
+        infoBtn = findViewById(R.id.BinfoBtn);
+        queueCount = findViewById(R.id.BqueueCount_txt);
+        clinicStat = findViewById(R.id.BclinicStat);
 
-        reserveBtn.setOnClickListener(onClickListener);
-        infoBtn.setOnClickListener(onClickListener);
-        queueCount.setOnClickListener(onClickListener);
+        reserveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toConfirm();
+            }
+        });
+        infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toInfo();
+            }
+        });
+        queueCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toAllQueue();
+            }
+        });
     }
 
     void pageManage(){
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceQCount = mDatabase.getReference().child("Clinic").child("queue_count");
-        mReferenceCount = mDatabase.getReference().child("Clinic").child("queue_token");
+        mReferenceQCount = mDatabase.getReference().child("Clinic").child("Bqueue_count");
+        mReferenceCount = mDatabase.getReference().child("Clinic").child("Bqueue_token");
         mReferenceStatus = mDatabase.getReference().child("Clinic").child("status");
-        mReferenceQueue = mDatabase.getReference().child("Clinic").child("queues");
+        mReferenceQueue = mDatabase.getReference().child("Clinic").child("Bqueues");
         mReferenceUser = mDatabase.getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
-        count = readCount();
+        readCount();
+        count = allQID.size();
         qCount = readQCount();
         open = readStatus();
         readUser();
@@ -166,7 +153,7 @@ public class LobbyActivity extends AppCompatActivity {
     }
 
     void toAllQueue(){
-        Intent intent = new Intent(LobbyActivity.this,AllQueueActivity.class);
+        Intent intent = new Intent(BandageLobbyActivity.this,AllBQueueActivity.class);
         startActivity(intent);
     }
 
@@ -186,40 +173,21 @@ public class LobbyActivity extends AppCompatActivity {
 
     void toConfirm(){
         if(reservable == true) {
-            qCount = queueID.size();
+            mReferenceQCount.setValue(qCount + 1);
             //mReferenceCount.setValue(count + 1);
             mReferenceUser.child(mUser.getUid()).child("inQueue").setValue(Boolean.TRUE);
             mReferenceUser.child(mUser.getUid()).child("queueNo").setValue(qCount + 1);
-            mReferenceUser.child(mUser.getUid()).child("queueType").setValue("normal");
+            mReferenceUser.child(mUser.getUid()).child("queueType").setValue("bandage");
             mReferenceUser.child(mUser.getUid()).child("name").setValue(mUser.getDisplayName());
             mReferenceQueue.child(String.valueOf(qCount + 1)).child("user").setValue(mUser.getUid());
-            mReferenceQueue.child(String.valueOf(qCount + 1)).child("case").setValue("normal");
+            mReferenceQueue.child(String.valueOf(qCount + 1)).child("case").setValue("bandage");
             mReferenceQueue.child(String.valueOf(qCount + 1)).child("status").setValue("waiting");
-
-            String hour,min;
-            if(cld.get(Calendar.HOUR_OF_DAY) < 10){
-                hour = "0"+String.valueOf(cld.get(Calendar.HOUR_OF_DAY));
-            }else {
-                hour = String.valueOf(cld.get(Calendar.HOUR_OF_DAY));
-            }
-
-            if(cld.get(Calendar.MINUTE) < 10){
-                min = "0"+String.valueOf(cld.get(Calendar.MINUTE));
-            }else {
-                min = String.valueOf(cld.get(Calendar.MINUTE));
-            }
 
             String t = String.valueOf(cld.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(cld.get(Calendar.MINUTE))
                     + " " + String.valueOf(cld.get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(cld.get(Calendar.MONTH))
                     + "/" + String.valueOf(cld.get(Calendar.YEAR));
 
             mReferenceQueue.child(String.valueOf(qCount + 1)).child("time").setValue(t);
-
-            if (!symField.getText().toString().equals("")) {
-                mReferenceQueue.child(String.valueOf(qCount + 1)).child("symptom").setValue(symField.getText().toString());
-            } else {
-                mReferenceQueue.child(String.valueOf(qCount + 1)).child("symptom").setValue("NotDefined");
-            }
 
             if (mUser.getDisplayName() != "") {
                 mReferenceQueue.child(String.valueOf(qCount + 1)).child("name").setValue(mUser.getDisplayName());
@@ -229,24 +197,27 @@ public class LobbyActivity extends AppCompatActivity {
 
             reservable = false;
         }
-        startActivity(new Intent(getApplicationContext(),ConfirmActivity.class));
+        startActivity(new Intent(BandageLobbyActivity.this,ConfirmBActivity.class));
         finish();
         //finish();
 
     }
 
     void toInfo(){
-        Intent confirmIntent = new Intent(LobbyActivity.this,ClinicInfoActivity.class);
+        Intent confirmIntent = new Intent(BandageLobbyActivity.this,ClinicInfoActivity.class);
         startActivity(confirmIntent);
     }
 
-    private Integer readCount(){
+
+    private void readCount(){
         final Integer[] counter = new Integer[1];
-        mReferenceCount.addValueEventListener(new ValueEventListener() {
+        mReferenceQueue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                counter[0] = dataSnapshot.getValue(Integer.class);
-                count = counter[0];
+                allQID.clear();
+                for (DataSnapshot keyNode : dataSnapshot.getChildren()){
+                    allQID.add(keyNode.getKey());
+                }
                 //queueCount.setText(count.toString());
             }
 
@@ -255,7 +226,6 @@ public class LobbyActivity extends AppCompatActivity {
 
             }
         });
-        return counter[0];
     }
 
     private Integer readQCount(){
@@ -287,19 +257,16 @@ public class LobbyActivity extends AppCompatActivity {
                     clinicStat.setTextColor(Color.parseColor("#449944"));
                     reserveBtn.setEnabled(true);
                     reserveBtn.setBackground(getResources().getDrawable(R.drawable.dark_v_round_button));
-                    symSet.setVisibility(View.VISIBLE);
                 }else if(cStatus[0] == true && reservable == false) {
                     clinicStat.setText("Open (In Queue)");
                     clinicStat.setTextColor(Color.parseColor("#449944"));
                     reserveBtn.setEnabled(false);
                     reserveBtn.setBackground(getResources().getDrawable(R.drawable.gray_round_button));
-                    symSet.setVisibility(View.INVISIBLE);
                 }else{
                     clinicStat.setText("Closed");
                     clinicStat.setTextColor(Color.parseColor("#BB0000"));
                     reserveBtn.setEnabled(false);
                     reserveBtn.setBackground(getResources().getDrawable(R.drawable.gray_round_button));
-                    symSet.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -382,5 +349,4 @@ public class LobbyActivity extends AppCompatActivity {
             }
         });
     }
-
 }

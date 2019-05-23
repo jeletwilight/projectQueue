@@ -266,7 +266,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:background="@drawable/gray_round_button"
+        android:background="@drawable/violet_round_button"
         android:text="Back" />
 
 </LinearLayout>

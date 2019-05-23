@@ -4,12 +4,14 @@ public class Queue {
     private String patientID;
     private String patientCase;
     private String status;
+    private String patientName;
 
     public Queue(){
     }
 
-    public Queue(String patientID,String patientCase,String status){
+    public Queue(String patientID,String patientName,String patientCase,String status){
         this.patientID = patientID;
+        this.patientName = patientName;
         this.patientCase = patientCase;
         this.status = status;
     }
@@ -36,5 +38,13 @@ public class Queue {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 }

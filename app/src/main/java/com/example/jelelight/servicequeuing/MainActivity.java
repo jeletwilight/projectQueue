@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         bindView();
         progress.setVisibility(View.GONE);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            startActivity(new Intent(MainActivity.this,LobbyActivity.class));
+            startActivity(new Intent(MainActivity.this,SelectCaseActivity.class));
             finish();
         }
     }
@@ -86,38 +86,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(){
-        String email = idField.getText().toString();
-        String password = pwField.getText().toString();
-        progress.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("MainLogin", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            progress.setVisibility(View.GONE);
-                            Intent loginIntent = new Intent(MainActivity.this , LobbyActivity.class);
-                            MainActivity.this.startActivity(loginIntent);
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            progress.setVisibility(View.GONE);
-                            Log.w("MainLogin", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+        if(idField.getText().toString().equals("") || pwField.getText().toString().equals("")){
+            Toast.makeText(this, "Please enter ID and Password", Toast.LENGTH_SHORT).show();
+        } else {
+            String email = idField.getText().toString();
+            String password = pwField.getText().toString();
+            progress.setVisibility(View.VISIBLE);
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("MainLogin", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                progress.setVisibility(View.GONE);
+                                Intent loginIntent = new Intent(MainActivity.this, SelectCaseActivity.class);
+                                MainActivity.this.startActivity(loginIntent);
+                                finish();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                progress.setVisibility(View.GONE);
+                                Log.w("MainLogin", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(MainActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-                        // ...
-                    }
-                });
+                            // ...
+                        }
+                    });
+        }
         //Intent loginIntent = new Intent(MainActivity.this , LobbyActivity.class);
         //MainActivity.this.startActivity(loginIntent);
     }
 
     public void guest(){
-        Intent loginIntent = new Intent(MainActivity.this , LobbyActivity.class);
+        Intent loginIntent = new Intent(MainActivity.this , SelectCaseActivity.class);
         MainActivity.this.startActivity(loginIntent);
     }
 

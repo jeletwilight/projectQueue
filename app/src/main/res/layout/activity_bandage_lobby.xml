@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorMain"
     android:orientation="vertical"
-    tools:context=".LobbyActivity">
+    tools:context=".BandageLobbyActivity">
 
     <TextView
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sick Queue Count"
+        android:text="Bandage Queue Count"
         android:textStyle="bold"
         android:textSize="30dp"/>
 
@@ -25,7 +25,7 @@
         style="@style/ShowField">
 
         <TextView
-            android:id="@+id/queueCount_txt"
+            android:id="@+id/BqueueCount_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -50,7 +50,7 @@
             />
 
         <TextView
-            android:id="@+id/clinicStat"
+            android:id="@+id/BclinicStat"
             android:layout_weight="1"
             android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
@@ -69,35 +69,8 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/symp_set"
-            android:layout_marginBottom="30dp"
-            android:layout_marginHorizontal="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Symptom"
-                android:textSize="15dp"
-                android:textColor="@color/colorWhite"
-                android:background="@drawable/head_input_style"
-                />
-
-            <EditText
-                android:id="@+id/symptom_edit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/edit_text_style"
-                android:textSize="15dp"
-                android:hint="Ex. Headache"/>
-
-        </LinearLayout>
-
         <Button
-            android:id="@+id/reserveBtn"
+            android:id="@+id/BreserveBtn"
             android:layout_width="290dp"
             android:layout_height="59dp"
             android:layout_gravity="center"
@@ -107,7 +80,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/infoBtn"
+            android:id="@+id/BinfoBtn"
             android:layout_width="290dp"
             android:layout_height="59dp"
             android:layout_gravity="center"
@@ -121,6 +94,5 @@
 
 
     </LinearLayout>
-
 
 </LinearLayout>

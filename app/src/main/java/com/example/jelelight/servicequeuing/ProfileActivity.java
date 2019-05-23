@@ -47,6 +47,18 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_profile);
         bind();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        if(mUser == null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
         pageManage();
     }
 
@@ -58,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
                     startActivity(new Intent(ProfileActivity.this,EditProfileActivity.class));
                     break;
                 case R.id.backProfile_Btn:
-                    startActivity(new Intent(ProfileActivity.this,LobbyActivity.class));
+                    onBackPressed();
                     finish();
                     break;
                 case R.id.copy_profile:
@@ -96,8 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void pageManage(){
-        mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
+
         mDatabasae = FirebaseDatabase.getInstance();
         mReferenceProfile = mDatabasae.getReference().child("Profile");
 

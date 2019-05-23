@@ -1,7 +1,6 @@
 package com.example.jelelight.servicequeuing;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -12,51 +11,43 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirebaseDB {
+public class BDFirebaseDB {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceQueue;
     private List<Queue> queues = new ArrayList<>();
 
-    public FirebaseDB(){
+    public BDFirebaseDB(){
         mDatabase = FirebaseDatabase.getInstance();
-        mReferenceQueue = mDatabase.getReference("Clinic").child("queues");
+        mReferenceQueue = mDatabase.getReference("Clinic").child("Bqueues");
     }
 
-    public interface DataStatus{
-        void DataIsLoaded(List<Queue> queues,List<String> keys);
+    public interface DataStatusB{
+        void DataIsLoaded(List<Queue> queues, List<String> keys);
         void DataIsInserted();
         void DataIsUpdated();
         void DataIsDeleted();
     }
 
 
-    public void readQueues(final DataStatus dataStatus){
+    public void readQueues(final BDFirebaseDB.DataStatusB dataStatusB){
         mReferenceQueue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 queues.clear();
-                List<String> allowList = new ArrayList<>();
-                allowList.add("waiting");
-                allowList.add("inRoom1");
-                allowList.add("inRoom2");
-                allowList.add("inRoom3");
                 List<String> keys = new ArrayList<>();
                 for(DataSnapshot keyNode : dataSnapshot.getChildren()){
+                    keys.add(keyNode.getKey());
+                    Queue queue = keyNode.getValue(Queue.class);
+                    queue.setPatientCase(keyNode.child("case").getValue(String.class));
+                    queue.setPatientID(keyNode.child("user").getValue(String.class));
                     if(!keyNode.child("status").exists()) {
                         mReferenceQueue.child(String.valueOf(keyNode.getKey())).child("status").setValue("waiting");
                     }
-                    if( allowList.contains(keyNode.child("status").getValue().toString())) {
-                        keys.add(keyNode.getKey());
-                        Queue queue = keyNode.getValue(Queue.class);
-                        queue.setPatientCase(keyNode.child("case").getValue(String.class));
-                        queue.setPatientID(keyNode.child("user").getValue(String.class));
-
-                        queue.setStatus(keyNode.child("status").getValue(String.class));
-                        queues.add(queue);
-                    }
+                    queue.setStatus(keyNode.child("status").getValue(String.class));
+                    queues.add(queue);
                 }
-                dataStatus.DataIsLoaded(queues,keys);
+                dataStatusB.DataIsLoaded(queues,keys);
             }
 
             @Override
@@ -65,5 +56,4 @@ public class FirebaseDB {
             }
         });
     }
-
 }

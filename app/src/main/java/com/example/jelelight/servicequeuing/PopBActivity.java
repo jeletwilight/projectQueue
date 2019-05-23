@@ -2,8 +2,6 @@ package com.example.jelelight.servicequeuing;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,22 +19,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class PopWarningActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PopBActivity extends Activity {
 
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mReferenceQueue,mReferenceUser;
 
-    private Boolean cancelable;
+    private List<Boolean> cancelable = new ArrayList<>();
     private Integer qid;
-    private Button yBtn,nBtn;
+    private Button y2Btn,n2Btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop_warning);
-
+        setContentView(R.layout.activity_pop_b);
         bind();
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -66,20 +66,21 @@ public class PopWarningActivity extends Activity {
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
 
-        mReferenceQueue = mDatabase.getReference().child("Clinic").child("queues");
+        mReferenceQueue = mDatabase.getReference().child("Clinic").child("Bqueues");
         mReferenceUser = mDatabase.getReference().child("Users");
 
 
-        yBtn = findViewById(R.id.yes_btn);
-        nBtn = findViewById(R.id.no_btn);
+        y2Btn = findViewById(R.id.Byes_btn);
+        n2Btn = findViewById(R.id.Bno_btn);
 
-        yBtn.setOnClickListener(new View.OnClickListener(){
+        y2Btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(cancelable == Boolean.TRUE){
+                if(cancelable.get(0) == Boolean.TRUE){
                     mReferenceUser.child(mUser.getUid()).child("inQueue").setValue(Boolean.FALSE);
                     mReferenceUser.child(mUser.getUid()).child("queueNo").setValue(null);
                     mReferenceUser.child(mUser.getUid()).child("queueType").setValue(null);
+
                     mReferenceQueue.child(qid.toString()).child("case").setValue("UserCancel");
                     mReferenceQueue.child(qid.toString()).child("status").setValue("canceled");
                 }
@@ -88,7 +89,7 @@ public class PopWarningActivity extends Activity {
             }
         });
 
-        nBtn.setOnClickListener(new View.OnClickListener(){
+        n2Btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 finish();
@@ -100,14 +101,15 @@ public class PopWarningActivity extends Activity {
         mReferenceQueue.orderByChild("user").equalTo(String.valueOf(mUser.getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                cancelable.clear();
                 for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
                     String key = childsnapshot.getKey();
                     if(childsnapshot.child("status").exists()) {
                         if (childsnapshot.child("status").getValue().equals("waiting")) {
-                            cancelable = Boolean.TRUE;
+                            cancelable.add(Boolean.TRUE);
                             qid = Integer.valueOf(key);
                         } else {
-                            cancelable = Boolean.FALSE;
+                            cancelable.add(Boolean.FALSE);
                         }
                     }
                 }

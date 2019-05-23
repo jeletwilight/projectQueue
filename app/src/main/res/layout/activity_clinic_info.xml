@@ -25,27 +25,75 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name :" />
+            android:text="Name : คลินิคไผ่ล้อม"
+            android:textSize="20dp"/>
+
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Office Hour :" />
+            android:text="Office Hour : 08.00 - 16.00"
+            android:textSize="20dp"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Telephone : "
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/tel_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="053-943-181"
+                android:textSize="20dp"
+                android:textColor="@color/colorDarkBlue"/>
+
+        </LinearLayout>
 
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Telephone :" />
+            android:text="Location"
+            android:textSize="20dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email :" />
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/Map_imgView"
+            android:layout_width="320dp"
+            android:layout_height="230dp"
+            app:srcCompat="@drawable/plmap" />
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Location" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom">
+
+            <Button
+                android:layout_marginBottom="20dp"
+                android:id="@+id/back_info"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/gray_round_button"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:textSize="25dp"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorButton"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -112,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:background="@drawable/violet_round_button"
+        android:background="@drawable/dark_v_round_button"
         android:text="LOGIN"
         android:textColor="@color/colorWhite"
         android:textSize="20dp" />
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:background="@drawable/gray_round_button"
+        android:background="@drawable/violet_round_button"
         android:text="Login As GUEST" />
 
 

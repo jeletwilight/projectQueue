@@ -14,48 +14,80 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopWarningActivity"
-            android:theme="@style/AppTheme.popMe"
-            android:noHistory="true"></activity>
 
-        <activity android:name=".ClinicInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ConfirmActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".EditProfileActivity"
+        <activity android:name=".ConfirmBActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ProfileActivity"
+        <activity android:name=".AllBQueueActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".AllQueueActivity"
+        <activity
+            android:name=".LobbyActivity"
+            android:noHistory="false"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".BandageLobbyActivity"
+            android:noHistory="false"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".SelectCaseActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".GotQueueActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".PopWarningActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.popMe" />
+
+        <activity android:name=".PopBActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.popMe"/>
+
+        <activity
+            android:name=".ClinicInfoActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AllQueueActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".LobbyActivity"
-            android:noHistory="false"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".PinActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".PinActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ConfirmActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".SignUpActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ListActivity"
-        android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ListActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

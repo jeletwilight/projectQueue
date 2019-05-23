@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorMain"
-    tools:context=".ConfirmActivity">
+    tools:context=".ConfirmBActivity">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:titleTextColor="@color/colorWhite"
-        app:title="Sick Confirmation"
+        app:title="Bandage Confirmation"
         android:background="@color/colorMainDark">
 
     </android.support.v7.widget.Toolbar>
@@ -35,7 +35,7 @@
 
         <TextView
             android:maxLines="1"
-            android:id="@+id/queueID"
+            android:id="@+id/BqueueID"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="10"
@@ -64,7 +64,7 @@
             style="@style/ShowField">
 
             <TextView
-                android:id="@+id/remaincount"
+                android:id="@+id/Bremaincount"
                 android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/okBtn"
+            android:id="@+id/BokBtn"
             android:layout_width="290dp"
             android:layout_height="59dp"
             android:layout_gravity="center"
@@ -105,7 +105,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/cancelBtn"
+            android:id="@+id/BcancelBtn"
             android:layout_width="290dp"
             android:layout_height="59dp"
             android:layout_gravity="center"
