@@ -17,19 +17,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConfirmActivity extends AppCompatActivity {
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceToken,mReferenceUser,mReferenceMyCount,
-                                mReferenceQueue,mReferenceMyUser;
+                                mReferenceQueue,mReferenceMyUser,mRoomQueue,mReferenceCounter;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private Integer token,myCount,qid;
-    private boolean inqueue;
+    private boolean inRoom;
     private Boolean isMineLoaded,isTokenLoaded;
     private Button okBtn,cancelBtn;
     private TextView remainTV,qTV;
+
+    private List<String> inRoomList = new ArrayList<>();
+    private List<String> myQid = new ArrayList<>();
+    private List<String> queueList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class ConfirmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirm);
         mDatabase = FirebaseDatabase.getInstance();
         bindView();
-        managePage();
+        //managePage();
     }
 
     @Override
@@ -47,6 +54,7 @@ public class ConfirmActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        inRoom = false;
         if(mUser == null){
             startActivity(new Intent(ConfirmActivity.this,MainActivity.class));
             finish();
@@ -55,11 +63,6 @@ public class ConfirmActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        managePage();
-    }
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -92,16 +95,20 @@ public class ConfirmActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceToken = mDatabase.getReference().child("Clinic").child("queue_token");
+        mReferenceCounter = mDatabase.getReference().child("Clinic").child("queue_count");
         mReferenceUser = mDatabase.getReference().child("Users");
         mReferenceMyUser = mDatabase.getReference().child("Users").child(mUser.getUid());
         mReferenceMyCount = mReferenceMyUser.child("queueNo");
         mReferenceQueue = mDatabase.getReference().child("Clinic").child("queues");
+        mRoomQueue = mDatabase.getReference("Clinic").child("rooms");
 
         readInQueue();
         readQID();
-
+        readAllQueue();
+        //readMyQID();
         readToken();
         readMyCount();
+        roomQueueRead();
 
         /*if(isTokenLoaded && isMineLoaded) {
             remainTV.setText(String.valueOf(myCount - token));
@@ -109,9 +116,10 @@ public class ConfirmActivity extends AppCompatActivity {
     }
 
     void okClick(){
-        Intent okIntent = new Intent(ConfirmActivity.this,LobbyActivity.class);
-        startActivity(okIntent);
-        //finish();
+        //Intent okIntent = new Intent(ConfirmActivity.this,LobbyActivity.class);
+        //startActivity(okIntent);
+        onBackPressed();
+        this.finish();
     }
 
     void cancelClick(){
@@ -127,11 +135,40 @@ public class ConfirmActivity extends AppCompatActivity {
         mReferenceQueue.orderByChild("user").equalTo(String.valueOf(mUser.getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> allow = new ArrayList<>();
+                allow.add("waiting");
+                allow.add("inRoom1");
+                allow.add("inRoom2");
+                allow.add("inRoom3");
+                myQid.clear();
                 for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
-                    String key = childsnapshot.getKey();
-                    qid = Integer.valueOf(key);
-                    qTV.setText(key);
+                    if(allow.contains(childsnapshot.child("status").getValue())) {
+                        String key = childsnapshot.getKey();
+                        qid = Integer.valueOf(key);
+                        myQid.add(key);
+                        qTV.setText(key);
+                    }
                 }
+                Log.d("ReadQID", myQid.get(0).toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void readAllQueue(){
+        mReferenceQueue.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                queueList.clear();
+                for(DataSnapshot keyNode : dataSnapshot.getChildren()){
+                    queueList.add(keyNode.getKey().toString());
+                }
+                mReferenceCounter.setValue(queueList.size());
+
             }
 
             @Override
@@ -167,6 +204,17 @@ public class ConfirmActivity extends AppCompatActivity {
                 myCount = dataSnapshot.getValue(Integer.class);
                 isMineLoaded = Boolean.TRUE;
                 //remainTV.setText(String.valueOf(myCount-token));
+                if(isTokenLoaded && isMineLoaded) {
+                    //Log.d("TokenListener", "onDataChange: "+token.toString()+" "+myCount.toString());
+                    if(myCount - token-1 >= 0) {
+                        remainTV.setText(String.valueOf(myCount - token));
+                    }else if(myCount - token-1 >= -3){
+                        remainTV.setText(String.valueOf("Soon"));
+                        inRoom = true;
+                    }else{
+                        remainTV.setText(String.valueOf("Skipped"));
+                    }
+                }
             }
 
             @Override
@@ -181,9 +229,18 @@ public class ConfirmActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 token = dataSnapshot.getValue(Integer.class);
                 isTokenLoaded = Boolean.TRUE;
+
                 //remainTV.setText(String.valueOf(myCount-token));
                 if(isTokenLoaded && isMineLoaded) {
-                    remainTV.setText(String.valueOf(myCount - token));
+                    //Log.d("TokenListener", "onDataChange: "+token.toString()+" "+myCount.toString());
+                    if(myCount - token-1 >= 0) {
+                        remainTV.setText(String.valueOf(myCount - token));
+                    }else if(myCount - token-1 >= -3){
+                        remainTV.setText(String.valueOf("Soon"));
+                        inRoom = true;
+                    }else{
+                        remainTV.setText(String.valueOf("Skipped"));
+                    }
                 }
 
             }
@@ -192,6 +249,31 @@ public class ConfirmActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+    }
+
+    private void roomQueueRead(){
+        mRoomQueue.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                inRoomList.clear();
+                for(DataSnapshot keyNode : dataSnapshot.getChildren()){
+                    if(keyNode.child("queue").exists()) {
+                        inRoomList.add(keyNode.child("queue").getValue().toString());
+                    }
+                }
+                if(inRoomList.contains(myQid.get(0))){
+                    startActivity(new Intent(ConfirmActivity.this,GotQueueActivity.class));
+                    finish();
+                }
+                //Log.d("RoomQueueRead", " INROOMLIST : " +inRoomList.toString() + "QID : " + myQid.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }
