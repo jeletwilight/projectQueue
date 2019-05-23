@@ -44,11 +44,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
+    private Button submitBtn,backBtn;
     private Button calenView;
     private EditText nameEdit,heightEdit,weightEdit,birthEdit,cautionEdit,phoneEdit;
     private RadioButton bGen,bBlood;
     private RadioButton genM,genF,bloodA,bloodB,bloodAB,bloodO;
-    private Button submitBtn,backBtn;
     private RadioGroup rGend,rBlood;
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;

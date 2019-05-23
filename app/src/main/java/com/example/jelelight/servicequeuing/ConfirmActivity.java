@@ -149,7 +149,7 @@ public class ConfirmActivity extends AppCompatActivity {
                         qTV.setText(key);
                     }
                 }
-                Log.d("ReadQID", myQid.get(0).toString());
+                //Log.d("ReadQID", myQid.get(0).toString());
             }
 
             @Override
@@ -201,18 +201,20 @@ public class ConfirmActivity extends AppCompatActivity {
         mReferenceMyCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                myCount = dataSnapshot.getValue(Integer.class);
-                isMineLoaded = Boolean.TRUE;
-                //remainTV.setText(String.valueOf(myCount-token));
-                if(isTokenLoaded && isMineLoaded) {
-                    //Log.d("TokenListener", "onDataChange: "+token.toString()+" "+myCount.toString());
-                    if(myCount - token-1 >= 0) {
-                        remainTV.setText(String.valueOf(myCount - token));
-                    }else if(myCount - token-1 >= -3){
-                        remainTV.setText(String.valueOf("Soon"));
-                        inRoom = true;
-                    }else{
-                        remainTV.setText(String.valueOf("Skipped"));
+                if(dataSnapshot.exists()){
+                    myCount = dataSnapshot.getValue(Integer.class);
+                    isMineLoaded = Boolean.TRUE;
+                    //remainTV.setText(String.valueOf(myCount-token));
+                    if(isTokenLoaded && isMineLoaded) {
+                        //Log.d("TokenListener", "onDataChange: "+token.toString()+" "+myCount.toString());
+                        if(myCount - token-1 >= 0) {
+                            remainTV.setText(String.valueOf(myCount - token));
+                        }else if(myCount - token-1 >= -3){
+                            remainTV.setText(String.valueOf("Soon"));
+                            inRoom = true;
+                        }else{
+                            remainTV.setText(String.valueOf("Skipped"));
+                        }
                     }
                 }
             }

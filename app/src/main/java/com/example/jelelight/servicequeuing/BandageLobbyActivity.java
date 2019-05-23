@@ -145,7 +145,7 @@ public class BandageLobbyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         readCount();
         count = allQID.size();
-        qCount = readQCount();
+        readQCount();
         open = readStatus();
         readUser();
         getAllQueueID();
@@ -228,13 +228,13 @@ public class BandageLobbyActivity extends AppCompatActivity {
         });
     }
 
-    private Integer readQCount(){
+    private void readQCount(){
         final Integer[] counter = new Integer[1];
         mReferenceQCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 counter[0] = dataSnapshot.getValue(Integer.class);
-                //qCount = counter[0];
+                qCount = counter[0];
                 //queueCount.setText(qCount.toString());
             }
 
@@ -243,7 +243,6 @@ public class BandageLobbyActivity extends AppCompatActivity {
 
             }
         });
-        return counter[0];
     }
 
     private boolean readStatus(){

@@ -124,16 +124,19 @@ public class ConfirmBActivity extends AppCompatActivity {
         mReferenceQueue.orderByChild("user").equalTo(String.valueOf(mUser.getUid())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> allow = new ArrayList<>();
+                allow.add("waiting");
+                allow.add("inRoom4");
                 myQid.clear();
                 for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
-                    if(childsnapshot.child("status").getValue().equals("waiting")) {
+                    if(allow.contains(childsnapshot.child("status").getValue())) {
                         String key = childsnapshot.getKey();
                         qid = Integer.valueOf(key);
                         myQid.add(key);
                         qTV.setText("B" + key.toString());
                     }
                 }
-                Log.d("ReadQID", myQid.get(0).toString());
+                //Log.d("ReadQID", myQid.get(0).toString());
             }
 
             @Override
@@ -191,6 +194,16 @@ public class ConfirmBActivity extends AppCompatActivity {
                 myCount = dataSnapshot.getValue(Integer.class);
                 isMineLoaded = Boolean.TRUE;
                 //remainTV.setText(String.valueOf(myCount-token));
+                if(isTokenLoaded && isMineLoaded) {
+                    if(myCount - token-1 >= 0) {
+                        remainTV.setText(String.valueOf(myCount - token));
+                    }else if(myCount - token-1 >= -3){
+                        remainTV.setText(String.valueOf("Soon"));
+                        inRoom = true;
+                    }else{
+                        remainTV.setText(String.valueOf("Skipped"));
+                    }
+                }
             }
 
             @Override
@@ -235,11 +248,11 @@ public class ConfirmBActivity extends AppCompatActivity {
                         inRoomList.add(keyNode.child("queue").getValue().toString());
                     }
                 }
-                /*if(inRoomList.contains(myQid.get(0))){
+                if(inRoomList.contains(myQid.get(0))){
                     startActivity(new Intent(ConfirmBActivity.this,GotQueueActivity.class));
                     finish();
                 }
-                Log.d("RoomQueueRead", " INROOMLIST : " +inRoomList.toString() + "QID : " + myQid.toString());*/
+                //Log.d("RoomQueueRead", " INROOMLIST : " +inRoomList.toString() + "QID : " + myQid.toString());
             }
 
             @Override
